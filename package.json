@@ -1,16 +1,15 @@
 {
-  "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
+  "displayName": "controlfree",
+  "name": "homebridge-controlfree",
   "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "description": "Homekit to ControlFree",
   "license": "Apache-2.0",
-  "repository": {
+"repository": {
     "type": "git",
-    "url": "git://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git://github.com/controlfree/cfhb.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/controlfree/cfhb/issues"
   },
   "engines": {
     "node": ">=12.13.0",
