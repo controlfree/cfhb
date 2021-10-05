@@ -17,7 +17,7 @@ export class ExPlatform implements DynamicPlatformPlugin {
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
-    this.log.info('init');
+    this.log.info('init: '+this.config.server_id);
     this.api.on('didFinishLaunching', () => {
       	this.discoverDevices();
     });
@@ -34,10 +34,11 @@ export class ExPlatform implements DynamicPlatformPlugin {
     this.log.info('discoverDevices');
     
 	const getDeviceList = async () => {
-        let result: AxiosResponse = await axios.get('http://cloud.control-free.com/test.php');
-        if(result.result){
-			console.log(result.data);
-			for (const device of result.data) {
+        let result: AxiosResponse = await axios.get('http://cloud.control-free.com/test.php?gw_id='+this.config.server_id);
+        if(result.data.result){
+        	const data = result.data.data;
+			console.log(data);
+			for (const device of data) {
 				const uuid = this.api.hap.uuid.generate(device.id);
 				const a = this.accessories.find(accessory => accessory.UUID === uuid);
 				
