@@ -16,7 +16,9 @@ class ExPlatform {
         this.Service = this.api.hap.Service;
         this.Characteristic = this.api.hap.Characteristic;
         this.accessories = [];
-        this.log.info('init: ' + this.config.server_id);
+        const configPath = api.user.configPath();
+        this.log.info('init: ' + configPath);
+        console.log(this.config);
         this.api.on('didFinishLaunching', () => {
             this.discoverDevices();
         });
@@ -28,7 +30,8 @@ class ExPlatform {
     discoverDevices() {
         this.log.info('discoverDevices');
         const getDeviceList = async () => {
-            let result = await axios_1.default.get('http://cloud.control-free.com/test.php?gw_id=' + this.config.server_id);
+            let result = await axios_1.default.get('http://cloud.control-free.com/test.php?gw_id=');
+            console.log(result.data);
             const res = (result.data ? JSON.parse(result.data) : false);
             if (res && res.result) {
                 console.log(res.data);
