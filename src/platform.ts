@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { ExamplePlatformAccessory } from './platformAccessory';
-import * as http from 'http';
+import axios, { AxiosResponse } from 'axios';
 
 /**
  * HomebridgePlatform
@@ -50,6 +50,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * Accessories must only be registered once, previously created accessories
    * must not be registered again to prevent "duplicate UUID" errors.
    */
+
   discoverDevices() {
 
     // EXAMPLE ONLY
@@ -65,11 +66,11 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         exampleDisplayName: 'Kitchen Light',
       },
     ];
-
-	console.log('http get');
-    http.get('http://cloud.control-free.com/test.php', (res) => {
-	console.log(res);
-	});
+const getDeviceList = async () => {
+        let result: AxiosResponse = await axios.get('http://cloud.control-free.com/test.php');
+        console.log(result.data);
+};
+	getDeviceList();
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (const device of exampleDevices) {
