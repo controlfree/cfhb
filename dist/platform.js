@@ -42,12 +42,12 @@ class ExPlatform {
                         const a = this.accessories.find(accessory => accessory.UUID === uuid);
                         // the accessory already exists
                         if (a) {
-                            new platformAccessory_1.ExamplePlatformAccessory(this, a);
+                            new platformAccessory_1.ExAccessory(this, a);
                         }
                         else {
                             const ay = new this.api.platformAccessory(device['name'], uuid);
                             ay.context.data = device;
-                            new platformAccessory_1.ExamplePlatformAccessory(this, ay);
+                            new platformAccessory_1.ExAccessory(this, ay);
                             this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [ay]);
                         }
                     }

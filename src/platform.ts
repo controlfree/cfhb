@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { ExamplePlatformAccessory } from './platformAccessory';
+import { ExAccessory } from './platformAccessory';
 import axios, { AxiosResponse } from 'axios';
 
 
@@ -49,11 +49,11 @@ export class ExPlatform implements DynamicPlatformPlugin {
 				
 					// the accessory already exists
 					if (a) {
-						new ExamplePlatformAccessory(this, a);
+						new ExAccessory(this, a);
 					}else{
 						const ay = new this.api.platformAccessory(device['name'], uuid);
 						ay.context.data = device;
-						new ExamplePlatformAccessory(this, ay);
+						new ExAccessory(this, ay);
 						this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [ay]);
 					}
 				}
