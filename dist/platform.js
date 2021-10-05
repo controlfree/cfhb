@@ -29,11 +29,11 @@ class ExPlatform {
         this.log.info('discoverDevices');
         const getDeviceList = async () => {
             let result = await axios_1.default.get('http://cloud.control-free.com/test.php?gw_id=' + this.config.server_id);
-            if (result.data.result) {
-                const data = result.data.data;
-                console.log(data);
-                for (const device of data) {
-                    const uuid = this.api.hap.uuid.generate(device.id);
+            const res = (result.data ? JSON.parse(result.data) : false);
+            if (res && res.result) {
+                console.log(res.data);
+                for (const device of res.data) {
+                    const uuid = this.api.hap.uuid.generate('controlfree' + device.id);
                     const a = this.accessories.find(accessory => accessory.UUID === uuid);
                     // the accessory already exists
                     if (a) {
