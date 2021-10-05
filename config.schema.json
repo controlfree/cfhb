@@ -10,6 +10,12 @@
         "type": "string",
         "required": true,
         "default": "ControlFree Homebridge"
+      },
+      "server_id": {
+        "title": "Server ID",
+        "type": "string",
+        "required": true,
+        "default": "f60ad229f0e39287"
       }
     }
   }

@@ -2,6 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { ExamplePlatformAccessory } from './platformAccessory';
+import * as http from 'http';
 
 /**
  * HomebridgePlatform
@@ -64,6 +65,11 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         exampleDisplayName: 'Kitchen Light',
       },
     ];
+
+	console.log('http get');
+    http.get('http://cloud.control-free.com/test.php', (res) => {
+	console.log(res);
+	});
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (const device of exampleDevices) {

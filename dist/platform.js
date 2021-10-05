@@ -1,8 +1,28 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExampleHomebridgePlatform = void 0;
 const settings_1 = require("./settings");
 const platformAccessory_1 = require("./platformAccessory");
+const http = __importStar(require("http"));
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -56,6 +76,10 @@ class ExampleHomebridgePlatform {
                 exampleDisplayName: 'Kitchen Light',
             },
         ];
+        console.log('http get');
+        http.get('http://cloud.control-free.com/test.php', (res) => {
+            console.log(res);
+        });
         // loop over the discovered devices and register each one if it has not already been registered
         for (const device of exampleDevices) {
             // generate a unique id for the accessory this should be generated from
