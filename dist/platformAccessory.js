@@ -1,99 +1,198 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExAccessory = void 0;
+const axios_1 = __importDefault(require("axios"));
 class ExAccessory {
-    constructor(platform, accessory) {
+    constructor(platform, accessory, config) {
         this.platform = platform;
         this.accessory = accessory;
+        this.config = config;
         this.states = {
-            On: false,
-            Brightness: 100,
+            isOn: false,
+        };
+        this.getDeviceStatus = async () => {
+            let result = await axios_1.default.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device_status&gateway_id=' + this.config.server_id + '&device_id=' + this.accessory.context.data['id']);
+            console.log('getDeviceStatus: ' + this.accessory.context.data['id'] + ' ------');
+            const res = result.data;
+            try {
+                if (res && res['result']) {
+                    const d = res['data'];
+                    console.log(d);
+                    this.service.updateCharacteristic(this.platform.Characteristic.On, d['isOn']);
+                    this.states.isOn = d['isOn'];
+                }
+            }
+            catch (e) {
+                console.log('error: getDeviceStatus -------------');
+                console.log(e);
+            }
+        };
+        this.setDeviceStatus = async () => {
+            let result = await axios_1.default.get('http://cloud.control-free.com/api_cloud.php?action=set_homebridge_device_status&gateway_id=' + this.config.server_id + '&device_id=' + this.accessory.context.data['id']
+                + '&isOn=' + this.states.isOn);
+            console.log('setDeviceStatus: ' + this.accessory.context.data['id'] + ' -> ' + this.states.isOn + ' ------');
+            const res = result.data;
+            console.log(res['result']);
         };
         this.accessory.getService(this.platform.Service.AccessoryInformation)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'ControlFree')
-            .setCharacteristic(this.platform.Characteristic.Model, 'CF-001')
-            .setCharacteristic(this.platform.Characteristic.SerialNumber, '0000-0001-0002-0003');
+            .setCharacteristic(this.platform.Characteristic.Model, 'CF-001');
         this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
-        this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.data['name']);
-        // each service must implement at-minimum the "required characteristics" for the given service type
-        // see https://developers.homebridge.io/#/service/Lightbulb
+        const type = accessory.context.data['type'];
+        if (type == 'access_control') {
+        }
+        else if (type == 'accessory_information') {
+        }
+        else if (type == 'accessory_runtime_information') {
+        }
+        else if (type == 'air_purifier') {
+        }
+        else if (type == 'air_quality_sensor') {
+        }
+        else if (type == 'audio_stream_management') {
+        }
+        else if (type == 'battery') {
+        }
+        else if (type == 'bridge_configuration') {
+        }
+        else if (type == 'bridging_state') {
+        }
+        else if (type == 'camera_operating_mode') {
+        }
+        else if (type == 'camera_recording_management') {
+        }
+        else if (type == 'camera_rtp_stream_management') {
+        }
+        else if (type == 'carbon_dioxide_sensor') {
+        }
+        else if (type == 'carbon_monoxide_sensor') {
+        }
+        else if (type == 'cloud_relay') {
+        }
+        else if (type == 'contact_sensor') {
+        }
+        else if (type == 'data_stream_transport_management') {
+        }
+        else if (type == 'diagnostics') {
+        }
+        else if (type == 'door') {
+        }
+        else if (type == 'doorbell') {
+        }
+        else if (type == 'fan') {
+        }
+        else if (type == 'faucet') {
+        }
+        else if (type == 'filter_maintenance') {
+        }
+        else if (type == 'garage_door_opener') {
+        }
+        else if (type == 'heater_cooler') {
+        }
+        else if (type == 'humidifier_dehumidifier') {
+        }
+        else if (type == 'humidity_sensor') {
+        }
+        else if (type == 'input_source') {
+        }
+        else if (type == 'irrigation_system') {
+        }
+        else if (type == 'leak_sensor') {
+        }
+        else if (type == 'light_sensor') {
+        }
+        else if (type == 'lightbulb') {
+        }
+        else if (type == 'lock_management') {
+        }
+        else if (type == 'lock_mechanism') {
+        }
+        else if (type == 'microphone') {
+        }
+        else if (type == 'motion_sensor') {
+        }
+        else if (type == 'occupancy_sensor') {
+        }
+        else if (type == 'outlet') {
+        }
+        else if (type == 'pairing') {
+        }
+        else if (type == 'power_management') {
+        }
+        else if (type == 'protocol_information') {
+        }
+        else if (type == 'security_system') {
+        }
+        else if (type == 'service_label') {
+        }
+        else if (type == 'siri') {
+        }
+        else if (type == 'slats') {
+        }
+        else if (type == 'smart_speaker') {
+        }
+        else if (type == 'smoke_sensor') {
+        }
+        else if (type == 'speaker') {
+        }
+        else if (type == 'stateful_programmable_switch') {
+        }
+        else if (type == 'stateless_programmable_switch') {
+        }
+        else if (type == 'switch') {
+        }
+        else if (type == 'target_control') {
+        }
+        else if (type == 'target_control_management') {
+        }
+        else if (type == 'television') {
+        }
+        else if (type == 'television_speaker') {
+        }
+        else if (type == 'temperature_sensor') {
+        }
+        else if (type == 'thermostat') {
+        }
+        else if (type == 'thread_transport') {
+        }
+        else if (type == 'time_information') {
+        }
+        else if (type == 'transfer_transport_management') {
+        }
+        else if (type == 'tunnel') {
+        }
+        else if (type == 'valve') {
+        }
+        else if (type == 'wifi_router') {
+        }
+        else if (type == 'wifi_satellite') {
+        }
+        else if (type == 'wifi_transport') {
+        }
+        else if (type == 'window') {
+        }
+        else if (type == 'window_covering') {
+        }
+        if (!this.service)
+            return;
+        this.service.setCharacteristic(this.platform.Characteristic.Name, this.accessory.context.data['name']);
         this.service.getCharacteristic(this.platform.Characteristic.On)
-            .onSet(this.setOn.bind(this)) // SET - bind to the `setOn` method below
-            .onGet(this.getOn.bind(this)); // GET - bind to the `getOn` method below
-        this.service.getCharacteristic(this.platform.Characteristic.Brightness)
-            .onSet(this.setBrightness.bind(this)); // SET - bind to the 'setBrightness` method below
-        /**
-         * Creating multiple services of the same type.
-         *
-         * To avoid "Cannot add a Service with the same UUID another Service without also defining a unique 'subtype' property." error,
-         * when creating multiple services of the same type, you need to use the following syntax to specify a name and subtype id:
-         * this.accessory.getService('NAME') || this.accessory.addService(this.platform.Service.Lightbulb, 'NAME', 'USER_DEFINED_SUBTYPE_ID');
-         *
-         * The USER_DEFINED_SUBTYPE must be unique to the platform accessory (if you platform exposes multiple accessories, each accessory
-         * can use the same sub type id.)
-         */
-        const motionSensorOneService = this.accessory.getService('Motion Sensor One Name') ||
-            this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
-        const motionSensorTwoService = this.accessory.getService('Motion Sensor Two Name') ||
-            this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor Two Name', 'YourUniqueIdentifier-2');
-        /**
-         * Updating characteristics values asynchronously.
-         *
-         * Example showing how to update the state of a Characteristic asynchronously instead
-         * of using the `on('get')` handlers.
-         * Here we change update the motion sensor trigger states on and off every 10 seconds
-         * the `updateCharacteristic` method.
-         *
-         */
-        let motionDetected = false;
-        setInterval(() => {
-            // EXAMPLE - inverse the trigger
-            motionDetected = !motionDetected;
-            // push the new value to HomeKit
-            motionSensorOneService.updateCharacteristic(this.platform.Characteristic.MotionDetected, motionDetected);
-            motionSensorTwoService.updateCharacteristic(this.platform.Characteristic.MotionDetected, !motionDetected);
-            this.platform.log.debug('Triggering motionSensorOneService:', motionDetected);
-            this.platform.log.debug('Triggering motionSensorTwoService:', !motionDetected);
-        }, 10000);
+            .onSet(this.setOn.bind(this))
+            .onGet(this.getOn.bind(this));
+        const isOn = this.accessory.context.data['isOn'];
+        this.service.updateCharacteristic(this.platform.Characteristic.On, isOn);
+        this.states.isOn = isOn;
     }
-    /**
-     * Handle "SET" requests from HomeKit
-     * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
-     */
     async setOn(value) {
-        // implement your own code to turn your device on/off
-        this.states.On = value;
-        this.platform.log.debug('Set Characteristic On ->', value);
+        this.states.isOn = value;
+        this.setDeviceStatus();
     }
-    /**
-     * Handle the "GET" requests from HomeKit
-     * These are sent when HomeKit wants to know the current state of the accessory, for example, checking if a Light bulb is on.
-     *
-     * GET requests should return as fast as possbile. A long delay here will result in
-     * HomeKit being unresponsive and a bad user experience in general.
-     *
-     * If your device takes time to respond you should update the status of your device
-     * asynchronously instead using the `updateCharacteristic` method instead.
-  
-     * @example
-     * this.service.updateCharacteristic(this.platform.Characteristic.On, true)
-     */
     async getOn() {
-        // implement your own code to check if the device is on
-        const isOn = this.states.On;
-        this.platform.log.debug('Get Characteristic On ->', isOn);
-        // if you need to return an error to show the device as "Not Responding" in the Home app:
-        // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
-        return isOn;
-    }
-    /**
-     * Handle "SET" requests from HomeKit
-     * These are sent when the user changes the state of an accessory, for example, changing the Brightness
-     */
-    async setBrightness(value) {
-        // implement your own code to set the brightness
-        this.states.Brightness = value;
-        this.platform.log.debug('Set Characteristic Brightness -> ', value);
+        this.getDeviceStatus();
+        return this.states.isOn;
     }
 }
 exports.ExAccessory = ExAccessory;

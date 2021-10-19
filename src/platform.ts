@@ -34,32 +34,32 @@ export class ExPlatform implements DynamicPlatformPlugin {
     this.log.info('discoverDevices');
     
 	const getDeviceList = async () => {
-        let result: AxiosResponse = await axios.get('http://cloud.control-free.com/test.php?gw_id='+this.config.server_id);
-        console.log(result.data);
+        let result: AxiosResponse = await axios.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device&gateway_id='+this.config.server_id);
+        console.log('getDeviceList ------');
         const res = result.data;
-        console.log(res['result']);
+        //console.log(res['result']);
         try{
 			if(res && res['result']){
-				const arr = <Array<number>>res['data'];
-				console.log(arr);
+				const arr = <Array<any>>res['data'];
 				for (var i=0;i<arr.length;i++) {
 					const device = arr[i];
+					console.log(device);
 					const uuid = this.api.hap.uuid.generate('controlfree'+device['id']);
 					const a = this.accessories.find(accessory => accessory.UUID === uuid);
 				
 					// the accessory already exists
 					if (a) {
-						new ExAccessory(this, a);
+						new ExAccessory(this, a, this.config);
 					}else{
 						const ay = new this.api.platformAccessory(device['name'], uuid);
 						ay.context.data = device;
-						new ExAccessory(this, ay);
+						new ExAccessory(this, ay, this.config);
 						this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [ay]);
 					}
 				}
 			}
 		}catch(e){
-			console.log('error: discoverDevices -------------');
+			console.log('error: getDeviceList -------------');
 			console.log(e);
 		}
 	};
