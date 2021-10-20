@@ -40,6 +40,7 @@ class ExAccessory {
         this.accessory.getService(this.platform.Service.AccessoryInformation)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'ControlFree')
             .setCharacteristic(this.platform.Characteristic.Model, 'CF-001');
+        console.log(this.accessory.context.data);
         this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
         const type = accessory.context.data['type'];
         if (type == 'access_control') {
@@ -182,6 +183,8 @@ class ExAccessory {
         this.service.getCharacteristic(this.platform.Characteristic.On)
             .onSet(this.setOn.bind(this))
             .onGet(this.getOn.bind(this));
+        console.log('isOn: ' + this.accessory.context.data['isOn']);
+        console.log(this.accessory.context.data['isOn'] === true ? 'T' : (this.accessory.context.data['isOn'] === false ? 'F' : ''));
         const isOn = this.accessory.context.data['isOn'];
         this.service.updateCharacteristic(this.platform.Characteristic.On, isOn);
         this.states.isOn = isOn;
