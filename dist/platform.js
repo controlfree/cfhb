@@ -41,6 +41,7 @@ class ExPlatform {
                         const a = this.accessories.find(accessory => accessory.UUID === uuid);
                         // the accessory already exists
                         if (a) {
+                            a.context.data = device;
                             new platformAccessory_1.ExAccessory(this, a, this.config);
                         }
                         else {

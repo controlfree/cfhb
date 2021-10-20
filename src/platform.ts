@@ -48,6 +48,7 @@ export class ExPlatform implements DynamicPlatformPlugin {
 				
 					// the accessory already exists
 					if (a) {
+						a.context.data = device;
 						new ExAccessory(this, a, this.config);
 					}else{
 						const ay = new this.api.platformAccessory(device['name'], uuid);
