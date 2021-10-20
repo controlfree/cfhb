@@ -19,9 +19,10 @@ export class ExAccessory {
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'ControlFree')
       .setCharacteristic(this.platform.Characteristic.Model, 'CF-001');
       
+      console.log('ExAccessory ==');
       console.log(this.accessory.context.data);
 
-    this.service = this.accessory.getService(this.platform.Service.Lightbulb) || this.accessory.addService(this.platform.Service.Lightbulb);
+    this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
 	const type = accessory.context.data['type'];
 	if(type=='access_control'){
 	}else if(type=='accessory_information'){
@@ -155,8 +156,6 @@ export class ExAccessory {
 	}else if(type=='window_covering'){
 	
 	}
-	
-	if(!this.service) return;
 
     this.service.setCharacteristic(this.platform.Characteristic.Name, this.accessory.context.data['name']);
 	
@@ -165,9 +164,10 @@ export class ExAccessory {
       .onSet(this.setOn.bind(this))
       .onGet(this.getOn.bind(this));
       
-      console.log('isOn: '+this.accessory.context.data['isOn']);
-      console.log(this.accessory.context.data['isOn']===true?'T':(this.accessory.context.data['isOn']===false?'F':''));
-	const isOn = this.accessory.context.data['isOn'];
+    const isOn = this.accessory.context.data['isOn'];
+    console.log('isOn: '+isOn);
+    console.log('boolean '+(isOn===true?'T':(isOn===false?'F':'')));
+	
 	this.service.updateCharacteristic(this.platform.Characteristic.On, isOn);
 	this.states.isOn = isOn;
   }
