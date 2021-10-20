@@ -31,13 +31,12 @@ class ExPlatform {
             let result = await axios_1.default.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device&gateway_id=' + this.config.server_id);
             console.log('getDeviceList ------');
             const res = result.data;
-            //console.log(res['result']);
             try {
                 if (res && res['result']) {
                     const arr = res['data'];
                     for (var i = 0; i < arr.length; i++) {
                         const device = arr[i];
-                        console.log(device);
+                        console.log('device: ' + i);
                         const uuid = this.api.hap.uuid.generate('controlfree' + device['id']);
                         const a = this.accessories.find(accessory => accessory.UUID === uuid);
                         // the accessory already exists
@@ -47,6 +46,7 @@ class ExPlatform {
                         else {
                             const ay = new this.api.platformAccessory(device['name'], uuid);
                             ay.context.data = device;
+                            console.log(device);
                             new platformAccessory_1.ExAccessory(this, ay, this.config);
                             this.api.registerPlatformAccessories(settings_1.PLUGIN_NAME, settings_1.PLATFORM_NAME, [ay]);
                         }
