@@ -165,8 +165,8 @@ export class ExAccessory {
       .onGet(this.getOn.bind(this));
       
     const isOn = this.accessory.context.data['isOn'];
-    console.log('isOn: '+isOn);
-    console.log('boolean '+(isOn===true?'T':(isOn===false?'F':'')));
+    //console.log('isOn: '+isOn);
+    //console.log('boolean '+(isOn===true?'T':(isOn===false?'F':'')));
 	
 	this.service.updateCharacteristic(this.platform.Characteristic.On, isOn);
 	this.states.isOn = isOn;
