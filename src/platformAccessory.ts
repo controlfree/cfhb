@@ -199,7 +199,7 @@ export class ExAccessory {
 	};
 	private setDeviceStatus = async () => {
         let result: AxiosResponse = await axios.get('http://cloud.control-free.com/api_cloud.php?action=set_homebridge_device_status&gateway_id='+this.config.server_id+'&device_id='+this.accessory.context.data['id']
-        	+'&isOn='+this.states.isOn);
+        	+'&is_on='+this.states.isOn);
         //console.log('setDeviceStatus: '+this.accessory.context.data['id']+' -> '+this.states.isOn+' ------');
         //const res = result.data;
         //console.log(res['result']);
