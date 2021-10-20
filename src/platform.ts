@@ -35,14 +35,14 @@ export class ExPlatform implements DynamicPlatformPlugin {
     
 	const getDeviceList = async () => {
         let result: AxiosResponse = await axios.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device&gateway_id='+this.config.server_id);
-        console.log('getDeviceList ------');
+        //console.log('getDeviceList ------');
         const res = result.data;
         try{
 			if(res && res['result']){
 				const arr = <Array<any>>res['data'];
 				for (var i=0;i<arr.length;i++) {
 					const device = arr[i];
-					console.log('device: '+i);
+					//console.log('device: '+i);
 					const uuid = this.api.hap.uuid.generate('controlfree'+device['id']);
 					const a = this.accessories.find(accessory => accessory.UUID === uuid);
 				
@@ -53,7 +53,7 @@ export class ExPlatform implements DynamicPlatformPlugin {
 					}else{
 						const ay = new this.api.platformAccessory(device['name'], uuid);
 						ay.context.data = device;
-						console.log(device);
+						//console.log(device);
 						new ExAccessory(this, ay, this.config);
 						this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [ay]);
 					}

@@ -15,14 +15,13 @@ class ExAccessory {
         };
         this.getDeviceStatus = async () => {
             let result = await axios_1.default.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device_status&gateway_id=' + this.config.server_id + '&device_id=' + this.accessory.context.data['id']);
-            console.log('getDeviceStatus: ' + this.accessory.context.data['id'] + ' ------');
             const res = result.data;
             try {
                 if (res && res['result']) {
                     const d = res['data'];
-                    console.log(d);
                     this.service.updateCharacteristic(this.platform.Characteristic.On, d['isOn']);
                     this.states.isOn = d['isOn'];
+                    console.log('getDeviceStatus: ' + this.accessory.context.data['id'] + ' : ' + (d['isOn'] ? 'T' : 'F'));
                 }
             }
             catch (e) {
@@ -33,15 +32,15 @@ class ExAccessory {
         this.setDeviceStatus = async () => {
             let result = await axios_1.default.get('http://cloud.control-free.com/api_cloud.php?action=set_homebridge_device_status&gateway_id=' + this.config.server_id + '&device_id=' + this.accessory.context.data['id']
                 + '&isOn=' + this.states.isOn);
-            console.log('setDeviceStatus: ' + this.accessory.context.data['id'] + ' -> ' + this.states.isOn + ' ------');
-            const res = result.data;
-            console.log(res['result']);
+            //console.log('setDeviceStatus: '+this.accessory.context.data['id']+' -> '+this.states.isOn+' ------');
+            //const res = result.data;
+            //console.log(res['result']);
         };
         this.accessory.getService(this.platform.Service.AccessoryInformation)
             .setCharacteristic(this.platform.Characteristic.Manufacturer, 'ControlFree')
             .setCharacteristic(this.platform.Characteristic.Model, 'CF-001');
-        console.log('ExAccessory ==');
-        console.log(this.accessory.context.data);
+        //console.log('ExAccessory ==');
+        //console.log(this.accessory.context.data);
         this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
         const type = accessory.context.data['type'];
         if (type == 'access_control') {

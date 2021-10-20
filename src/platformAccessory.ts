@@ -19,8 +19,8 @@ export class ExAccessory {
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'ControlFree')
       .setCharacteristic(this.platform.Characteristic.Model, 'CF-001');
       
-      console.log('ExAccessory ==');
-      console.log(this.accessory.context.data);
+      //console.log('ExAccessory ==');
+      //console.log(this.accessory.context.data);
 
     this.service = this.accessory.getService(this.platform.Service.Switch) || this.accessory.addService(this.platform.Service.Switch);
 	const type = accessory.context.data['type'];
@@ -184,14 +184,13 @@ export class ExAccessory {
 	
 	private getDeviceStatus = async () => {
         let result: AxiosResponse = await axios.get('http://cloud.control-free.com/api_cloud.php?action=get_homebridge_device_status&gateway_id='+this.config.server_id+'&device_id='+this.accessory.context.data['id']);
-        console.log('getDeviceStatus: '+this.accessory.context.data['id']+' ------');
         const res = result.data;
         try{
 			if(res && res['result']){
 				const d = res['data'];
-				console.log(d);
 				this.service.updateCharacteristic(this.platform.Characteristic.On, d['isOn']);
 				this.states.isOn = d['isOn'];
+				console.log('getDeviceStatus: '+this.accessory.context.data['id']+' : '+(d['isOn']?'T':'F'));
 			}
 		}catch(e){
 			console.log('error: getDeviceStatus -------------');
@@ -201,8 +200,8 @@ export class ExAccessory {
 	private setDeviceStatus = async () => {
         let result: AxiosResponse = await axios.get('http://cloud.control-free.com/api_cloud.php?action=set_homebridge_device_status&gateway_id='+this.config.server_id+'&device_id='+this.accessory.context.data['id']
         	+'&isOn='+this.states.isOn);
-        console.log('setDeviceStatus: '+this.accessory.context.data['id']+' -> '+this.states.isOn+' ------');
-        const res = result.data;
-        console.log(res['result']);
+        //console.log('setDeviceStatus: '+this.accessory.context.data['id']+' -> '+this.states.isOn+' ------');
+        //const res = result.data;
+        //console.log(res['result']);
 	};
 }
